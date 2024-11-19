@@ -192,7 +192,7 @@
         app:layout_constraintTop_toBottomOf="@+id/senha">
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/edtSenha"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginStart="3dp"
@@ -236,7 +236,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/btnCadastrar"
         android:layout_width="110dp"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
