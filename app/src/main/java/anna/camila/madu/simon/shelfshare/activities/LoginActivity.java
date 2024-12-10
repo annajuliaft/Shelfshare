@@ -1,6 +1,11 @@
 package anna.camila.madu.simon.shelfshare.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +26,28 @@ public class LoginActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        Button btnEntrar = findViewById(R.id.btnEntrar);
+        btnEntrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText edtUser = findViewById(R.id.edtUser);
+                String user = edtUser.getText().toString();
+                if(user.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "O campo de usuário está vazio", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                EditText edtSenha = findViewById(R.id.edtSenha);
+                String senha = edtSenha.getText().toString();
+                if(senha.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "O campo de senha está vazio", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(i);
+            }
         });
     }
 }
