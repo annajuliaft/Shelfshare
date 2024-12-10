@@ -156,7 +156,7 @@
         app:layout_constraintTop_toBottomOf="@+id/genero" />
 
     <Button
-        android:id="@+id/btnCadastrarLivro"
+        android:id="@+id/btnCadastre"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"

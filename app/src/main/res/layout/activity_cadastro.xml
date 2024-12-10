@@ -237,7 +237,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCadastrarLivro"
+        android:id="@+id/btnCadastre"
         android:layout_width="110dp"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
