@@ -42,3 +42,14 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+android {
+    // Outras configurações...
+
+    packagingOptions {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")  // Exclui licenças duplicadas
+            excludes.add("META-INF/androidx.cardview_cardview.version")  // Exclui o arquivo duplicado específico
+        }
+    }
+}
+
