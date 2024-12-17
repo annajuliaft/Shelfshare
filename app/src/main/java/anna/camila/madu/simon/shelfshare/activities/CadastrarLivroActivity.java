@@ -43,7 +43,7 @@ public class CadastrarLivroActivity extends AppCompatActivity {
         editTextAutor = findViewById(R.id.editTextAutor);
         editTextSinopse = findViewById(R.id.editTextSinopse);
         generoSelect = findViewById(R.id.generoselect);
-        floatingActionButton3 = findViewById(R.id.floatingActionButton3);
+        floatingActionButton3 = findViewById(R.id.floatingActionButton4);
         btnCadastre = findViewById(R.id.btnCadastre);
 
 

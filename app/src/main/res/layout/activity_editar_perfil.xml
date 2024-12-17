@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imgperfil"
+        android:id="@+id/imagecadastro_livro"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="8dp"
@@ -36,9 +36,9 @@
         android:layout_width="56dp"
         android:layout_height="57dp"
         android:clickable="true"
-        app:layout_constraintEnd_toEndOf="@+id/imgperfil"
+        app:layout_constraintEnd_toEndOf="@+id/imagecadastro_livro"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/imgperfil"
+        app:layout_constraintStart_toStartOf="@+id/imagecadastro_livro"
         app:srcCompat="@android:drawable/ic_input_add"
         tools:layout_editor_absoluteY="190dp" />
 
@@ -50,94 +50,89 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgperfil">
+        app:layout_constraintTop_toBottomOf="@+id/imagecadastro_livro">
 
         <TextView
             android:id="@+id/nameedit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="Nome" />
 
         <EditText
             android:id="@+id/etNome"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_margin="10dp"
             android:layout_marginStart="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@color/white"
             android:ems="10"
             android:inputType="textEmailAddress" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="15dp" />
 
         <TextView
             android:id="@+id/emailedit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="E-mail" />
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#F6F4F4"
+            android:layout_margin="10dp"
+            android:background="@color/white"
             android:ems="10"
             android:inputType="textEmailAddress" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="15dp" />
 
         <TextView
             android:id="@+id/senhaedit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="Senha" />
 
         <EditText
             android:id="@+id/etSenha"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_margin="10dp"
             android:layout_marginStart="3dp"
             android:background="@color/white"
             android:ems="10"
             android:inputType="textEmailAddress" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="15dp" />
-
         <TextView
             android:id="@+id/confsenhaedit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="Confirmar Senha" />
 
         <EditText
             android:id="@+id/etConfirmar"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_margin="10dp"
             android:layout_marginStart="3dp"
             android:background="@color/white"
             android:ems="10"
             android:inputType="textEmailAddress" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
         <Button
             android:id="@+id/btnedit"
-            android:layout_width="409dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="160dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:background="#301c6e"
+            android:backgroundTint="#301c6e"
             android:text="Editar"
             android:textColor="@color/white"
+            app:cornerRadius="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

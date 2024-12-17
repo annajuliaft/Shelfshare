@@ -158,7 +158,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
                 // Se a foto foi efetivamente escolhida pelo usuário...
                 if(resultCode == Activity.RESULT_OK) {
-                    ImageView imvPhoto = findViewById(R.id.imgperfil);
+                    ImageView imvPhoto = findViewById(R.id.imagecadastro_livro);
 
                     // se o usuário escolheu a câmera, então quando esse método é chamado, a foto tirada
                     // já está salva dentro do arquivo currentPhotoPath. Entretanto, se o usuário
