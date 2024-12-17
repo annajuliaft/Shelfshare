@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import anna.camila.madu.simon.shelfshare.R;
+import anna.camila.madu.simon.shelfshare.util.Config;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,14 +46,18 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
+                Config.setLogin(LoginActivity.this, user);
+                Config.setPassword(LoginActivity.this, senha);
+
                 Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(i);
             }
         });
-        Button btnCadastre = findViewById(R.id.btnCadastre);
+        Button btnCadastre = findViewById(R.id.btnCadastrar);
         btnCadastre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent i = new Intent(LoginActivity.this, CadastroActivity.class);
                 startActivity(i);
             }

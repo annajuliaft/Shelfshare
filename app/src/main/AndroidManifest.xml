@@ -17,14 +17,17 @@
         android:theme="@style/Theme.Shelfshare"
         tools:targetApi="31">
         <activity
-            android:name=".activities.MinhasTrocasActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.NotificacoesActivity"
             android:exported="false" />
         <activity
             android:name=".activities.EditarPerfilActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.LivroActivity"
             android:exported="false" />
@@ -45,13 +48,22 @@
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
+
+        <provider
+            android:authorities="anna.camila.madu.simon.shelfshare.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
+
     </application>
+
+
 
 </manifest>

@@ -21,8 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
-import anna.camila.madu.simon.shelfshare.activities.HomeActivity;
-
 public class CadastrarLivroActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -38,7 +36,7 @@ public class CadastrarLivroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_livro);
 
-        imageCadastroLivro = findViewById(R.id.imagecadastro_livro);
+        imageCadastroLivro = findViewById(R.id.imgperfil);
         editTextTitulo = findViewById(R.id.editTextTitulo);
         editTextAutor = findViewById(R.id.editTextAutor);
         editTextSinopse = findViewById(R.id.editTextSinopse);

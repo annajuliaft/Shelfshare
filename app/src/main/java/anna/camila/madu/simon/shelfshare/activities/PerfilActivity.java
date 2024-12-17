@@ -7,8 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import anna.camila.madu.simon.shelfshare.R;
+import anna.camila.madu.simon.shelfshare.adapter.BookAdapter;
 
 public class PerfilActivity extends AppCompatActivity {
 
@@ -17,10 +23,26 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.fragment_perfil);
+
+        // Configurar a View para EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // RecyclerView configuração
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_books);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Dados fake
+        List<String> fakeBooks = new ArrayList<>();
+        for (int i = 1; i <= 20; i++) {
+            fakeBooks.add("Livro " + i);
+        }
+
+        // Configurar o Adapter
+        BookAdapter adapter = new BookAdapter(fakeBooks);
+        recyclerView.setAdapter(adapter);
     }
 }
