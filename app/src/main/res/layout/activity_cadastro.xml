@@ -9,16 +9,16 @@
 
     <ImageView
         android:id="@+id/imageViewLogo"
-        android:layout_width="154dp"
-        android:layout_height="152dp"
+        android:layout_width="114dp"
+        android:layout_height="111dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logoroxoo" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView1"
