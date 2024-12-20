@@ -1,102 +1,203 @@
 package anna.camila.madu.simon.shelfshare.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
-import anna.camila.madu.simon.shelfshare.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import anna.camila.madu.simon.shelfshare.R;
+import anna.camila.madu.simon.shelfshare.model.EditarPerfilActivityViewModel;
 
 public class CadastrarLivroActivity extends AppCompatActivity {
 
-    private static final int PICK_IMAGE_REQUEST = 1;
-
-    private ImageView imageCadastroLivro;
-    private EditText editTextTitulo, editTextAutor, editTextSinopse;
-    private Spinner generoSelect;
-    private FloatingActionButton floatingActionButton3;
-    private Button btnCadastre;
+    static int RESULT_TAKE_PICTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cadastrar_livro);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
-        imageCadastroLivro = findViewById(R.id.imgperfil);
-        editTextTitulo = findViewById(R.id.editTextTitulo);
-        editTextAutor = findViewById(R.id.editTextAutor);
-        editTextSinopse = findViewById(R.id.editTextSinopse);
-        generoSelect = findViewById(R.id.generoselect);
-        floatingActionButton3 = findViewById(R.id.floatingActionButton4);
-        btnCadastre = findViewById(R.id.btnCadastre);
+        Button btnCadastre = findViewById(R.id.btnCadastre);
+        btnCadastre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editTextTitulo = findViewById(R.id.editTextTitulo);
+                String titulo = editTextTitulo.getText().toString();
+                if(titulo.isEmpty()) {
+                    Toast.makeText(CadastrarLivroActivity.this, "O campo de título está vazio", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                EditText editTextAutor = findViewById(R.id.editTextAutor);
+                String autor = editTextAutor.getText().toString();
+                if(autor.isEmpty()) {
+                    Toast.makeText(CadastrarLivroActivity.this, "O campo de autor está vazio", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Spinner generoselect = findViewById(R.id.generoselect);
+                String genero = editTextAutor.getText().toString();
+                if(genero.isEmpty()) {
+                    Toast.makeText(CadastrarLivroActivity.this, "O seletor de genero está vazio", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                EditText editTextSinopse = findViewById(R.id.editTextSinopse);
+                String sinopse = editTextSinopse.getText().toString();
+                if(sinopse.isEmpty()) {
+                    Toast.makeText(CadastrarLivroActivity.this, "O campo de descrição está vazio", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
-
-        floatingActionButton3.setOnClickListener(v -> openGallery());
-
-
-        String[] generos = {"Ficção", "Fantasia", "Romance", "Terror", "Suspense", "Aventura", "Comédia", "Drama", "História", "Biografia", "Ciência", "Poesia"};
-        ArrayAdapter<String> generoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, generos);
-        generoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        generoSelect.setAdapter(generoAdapter);
-
-
-        btnCadastre.setOnClickListener(v -> {
-            if (validateFields()) {
-
-                Intent intent = new Intent(CadastrarLivroActivity.this, HomeActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(CadastrarLivroActivity.this, LivroActivity.class);
+                startActivity(i);
             }
         });
+
+        FloatingActionButton btnUpload = findViewById(R.id.btnUpload);
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchGalleryOrCameraIntent();
+            }
+        });
+
+
+
+    }
+//Fiz até aqui
+
+    /**
+     * Esse método exibe um pequeno menu de opções que permite que o usuário escolha de onde virá
+     * a imagem do produto: câmera ou galeria.
+     */
+    private void dispatchGalleryOrCameraIntent() {
+
+        // Primeiro, criamos o arquivo que irá guardar a imagem.
+        File f = null;
+        try {
+            f = createImageFile();
+        } catch (IOException e) {
+            Toast.makeText(CadastrarLivroActivity.this, "Não foi possível criar o arquivo", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Se o arquivo foi criado com sucesso...
+        if(f != null) {
+
+            // setamos o endereço do arquivo criado dentro do ViewModel
+            EditarPerfilActivityViewModel editarPerfilActivityViewModel = new ViewModelProvider(this).get(EditarPerfilActivityViewModel.class);
+            editarPerfilActivityViewModel.setCurrentPhotoPath(f.getAbsolutePath());
+
+            // Criamos e configuramos o INTENT que dispara a câmera
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Uri fUri = FileProvider.getUriForFile(CadastrarLivroActivity.this, "anna.camila.madu.simon.shelfshare.fileprovider", f);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fUri);
+
+            // Criamos e configuramos o INTENT que dispara a escolha de imagem via galeria
+            Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            galleryIntent.setType("image/*");
+
+            // Criamos o INTENT que gera o menu de escolha. Esse INTENT contém os dois INTENTS
+            // anteriores e permite que o usuário esolha entre câmera e galeria de fotos.
+            Intent chooserIntent = Intent.createChooser(galleryIntent, "Pegar imagem de...");
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { cameraIntent });
+            startActivityForResult(chooserIntent, RESULT_TAKE_PICTURE);
+        }
+        else {
+            Toast.makeText(CadastrarLivroActivity.this, "Não foi possível criar o arquivo", Toast.LENGTH_LONG).show();
+            return;
+        }
+
     }
 
-
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    /**
+     * Método que cria um arquivo vazio, onde será guardada a imagem escolhida. O arquivo é
+     * criado dentro do espaço interno da app, no diretório PICTURES. O nome do arquivo usa a
+     * data e hora do momento da criação do arquivo. Isso garante que sempre que esse método for
+     * chamado, não haverá risco de sobrescrever o arquivo anterior.
+     */
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File f = File.createTempFile(imageFileName, ".jpg", storageDir);
+        return f;
     }
 
-
+    /**
+     * Esse método é chamado depois que o usuário escolhe a foto
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri imageUri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                imageCadastroLivro.setImageBitmap(bitmap); // Coloca a imagem no ImageView
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        if(requestCode == RESULT_TAKE_PICTURE) {
+
+            // Pegamos o endereço do arquivo vazio que foi criado para guardar a foto escolhida
+            EditarPerfilActivityViewModel editarPerfilActivityViewModel = new ViewModelProvider(this).get(EditarPerfilActivityViewModel.class);
+            String currentPhotoPath = editarPerfilActivityViewModel.getCurrentPhotoPath();
+
+            // Se a foto foi efetivamente escolhida pelo usuário...
+            if(resultCode == Activity.RESULT_OK) {
+                ImageView imvPhoto = findViewById(R.id.imgperfil);
+
+                // se o usuário escolheu a câmera, então quando esse método é chamado, a foto tirada
+                // já está salva dentro do arquivo currentPhotoPath. Entretanto, se o usuário
+                // escolheu uma foto da galeria, temos que obter o URI da foto escolhida:
+                Uri selectedPhoto = data.getData();
+                if(selectedPhoto != null) {
+                    try {
+                        // carregamos a foto escolhida em um bitmap
+                        Bitmap bitmap = anna.camila.madu.simon.shelfshare.util.Util.getBitmap(this, selectedPhoto);
+                        // salvamos o bitmao dentro do arquivo currentPhotoPath
+                        anna.camila.madu.simon.shelfshare.util.Util.saveImage(bitmap, currentPhotoPath);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                }
+
+                // Carregamos a foto salva em currentPhotoPath com a escala correta e setamos no ImageView
+                Bitmap bitmap = anna.camila.madu.simon.shelfshare.util.Util.getBitmap(currentPhotoPath, imvPhoto.getWidth(), imvPhoto.getHeight());
+                imvPhoto.setImageBitmap(bitmap);
+            }
+            else {
+                // Se a imagem não foi escolhida, deletamos o arquivo que foi criado para guardá-la
+                File f = new File(currentPhotoPath);
+                f.delete();
+                editarPerfilActivityViewModel.setCurrentPhotoPath("");
             }
         }
     }
 
-    private boolean validateFields() {
-        if (TextUtils.isEmpty(editTextTitulo.getText().toString())) {
-            Toast.makeText(this, "Preencha o título", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (TextUtils.isEmpty(editTextAutor.getText().toString())) {
-            Toast.makeText(this, "Preencha o autor", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (TextUtils.isEmpty(editTextSinopse.getText().toString())) {
-            Toast.makeText(this, "Preencha a sinopse", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
 }
