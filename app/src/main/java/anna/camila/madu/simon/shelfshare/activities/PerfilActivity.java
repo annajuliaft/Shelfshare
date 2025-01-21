@@ -1,6 +1,9 @@
 package anna.camila.madu.simon.shelfshare.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,5 +47,15 @@ public class PerfilActivity extends AppCompatActivity {
         // Configurar o Adapter
         BookAdapter adapter = new BookAdapter(fakeBooks);
         recyclerView.setAdapter(adapter);
+    }
+    Button add_book_button = findViewById(R.id.add_book_button);
+        add_book_button.setOnClickListener(new View.OnClickListener() {
+        Intent i = new Intent(add_book_button.this, CadastrarLivroActivity.class);
+        startActivity(i);
+    }
+    Button add_book_button = findViewById(R.id.add_book_button);
+        add_book_button.setOnClickListener(new View.OnClickListener() {
+        Intent i = new Intent(add_book_button.this, EditarPerfilActivity.class);
+        startActivity(i);
     }
 }
